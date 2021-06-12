@@ -1,4 +1,4 @@
-# TwitchChatLogger
+# TwitchChatLogging
 ### Specifikace požadavků - Verze 1
 Jan Bezouška  
 bezouska.jan.2018@skola.ssps.cz  
