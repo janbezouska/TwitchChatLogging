@@ -7,6 +7,7 @@ namespace TwitchChatLogger
   {
     public string Name { get; set; }
     public string AuthToken { get; set; }
+    public string Password { get; set; }
 
     public void SetConfig(string path)
     {
@@ -15,6 +16,7 @@ namespace TwitchChatLogger
 
       Name = config.Name;
       AuthToken = config.AuthToken;
+      Password = config.Password;
     }
   }
 }

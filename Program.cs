@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading;
+using System.Data.SqlClient;
+using Dapper;
 using TwitchLib;
 using TwitchLib.Client;
 using TwitchLib.Client.Models;
@@ -7,11 +10,12 @@ using TwitchLib.Communication.Models;
 
 namespace TwitchChatLogger
 {
-  class Program
+  static class Program
   {
     static void Main(string[] args)
     {
-      Bot bot = new();
+      Bot bot = new("Epousek");
+      Bot bot2 = new("Herdyn");
       Console.ReadLine();
     }
   }
@@ -21,7 +25,7 @@ namespace TwitchChatLogger
     TwitchClient client;
     private Config config;
 
-    public Bot()
+    public Bot(string channel)
     {
       config = new();
       config.SetConfig("config.txt");
@@ -34,7 +38,7 @@ namespace TwitchChatLogger
       //};
       //WebSocketClient wsClient = new WebSocketClient(clientOptions);
       client = new();
-      client.Initialize(credentials, "Epousek");
+      client.Initialize(credentials, channel);
 
       client.OnJoinedChannel += Client_OnJoinedChannel;
       client.OnMessageReceived += Client_OnMessageReceived;
@@ -55,6 +59,21 @@ namespace TwitchChatLogger
         Name = e.ChatMessage.DisplayName,
         Message = e.ChatMessage.Message
       };
+
+      ToDb(msg, config.Password);
+    }
+
+    private async void ToDb(ChatMessage msg, string pass)
+    {
+      SqlConnectionStringBuilder builder = new();
+
+      builder.ConnectionString = $"Server=tcp:sql-twitchchatlogger.database.windows.net,1433;Initial Catalog=ChatLogs;Persist Security Info=False;User ID=Epousek;Password={pass};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+      using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+      {
+        await connection.ExecuteAsync("dbo.WriteMessage @Channel, @Username, @ChatMessage, @TimeStamp",
+          new { Channel = msg.Channel, Username = msg.Name, ChatMessage = msg.Message, TimeStamp = msg.When});
+      }
     }
   }
 }
