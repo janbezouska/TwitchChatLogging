@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="TwitchLib.Client" Version="3.2.2" />
+    <PackageReference Include="TwitchLib.Client.Enums" Version="3.2.2" />
+    <PackageReference Include="TwitchLib.Client.Models" Version="3.2.2" />
+    <PackageReference Include="TwitchLib.Communication" Version="1.0.3" />
+  </ItemGroup>
+
+</Project>
