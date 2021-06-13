@@ -14,8 +14,11 @@ namespace TwitchChatLogger
   {
     static void Main(string[] args)
     {
-      Bot bot = new("Epousek");
+      Bot bot1 = new("Epousek");
       Bot bot2 = new("Herdyn");
+      Bot bot3 = new("Agraelus");
+      Bot bot4 = new("CzechCloud");
+      Bot bot5 = new("Nymn");
       Console.ReadLine();
     }
   }
